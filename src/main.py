@@ -4,6 +4,8 @@ import sys
 import argparse
 import numpy as np
 import trimesh
+import database.db_handler as dbh
+import statistics.histogram as stat
 
 
 def perform_show(options):
@@ -13,6 +15,17 @@ def perform_show(options):
 
 def perform_stats(options):
     print("Statistics!")
+    shape_paths = dbh.determine_paths(options.path)
+    i = 0
+    shapes = []
+    for path in shape_paths:
+        shapes.append(dbh.load_shape(path))
+
+        i += 1
+        if i >= 20:
+            break
+
+    (mean_f, mean_v, mean_f_c, mean_v_c, f_c, v_c) = stat.compute_stats(shapes)
 
 
 def perform_refine(options):
