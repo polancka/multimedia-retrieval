@@ -11,6 +11,7 @@ import statistics.histogram as stat
 def perform_show(options):
     mesh = trimesh.load(options.path, force="mesh")
     mesh.show()
+    # TODO: Add nice opengl stuff
 
 
 def perform_stats(options):
@@ -26,14 +27,17 @@ def perform_stats(options):
             break
 
     (mean_f, mean_v, mean_f_c, mean_v_c, f_c, v_c) = stat.compute_stats(shapes)
+    # TODO: Plot stuff
 
 
 def perform_refine(options):
     print("Refine!")
+    # TODO: Add refinement
 
 
 def perform_normalize(options):
     print("Normalize!")
+    # TODO: Add normalization
 
 
 def main():
@@ -74,7 +78,6 @@ def main():
         perform_normalize(options)
     else:
         print("No command given!")
-
 
 
 if __name__ == "__main__":
