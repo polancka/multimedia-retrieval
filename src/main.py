@@ -4,8 +4,11 @@ import sys
 import argparse
 import numpy as np
 import trimesh
-import database.db_handler as dbh
+import database.loader as dbh
 import statistics.histogram as stat
+import visualization.viewer as vis
+from tqdm import tqdm
+from joblib import Parallel, delayed
 
 
 def perform_show(options):
@@ -15,18 +18,22 @@ def perform_show(options):
 
 
 def perform_stats(options):
-    print("Statistics!")
     shape_paths = dbh.determine_paths(options.path)
-    i = 0
-    shapes = []
-    for path in shape_paths:
-        shapes.append(dbh.load_shape(path))
+    print("Loading models (%i)" % len(shape_paths))
 
-        i += 1
-        if i >= 20:
-            break
+    # Parallel loading
+    job_delays = [delayed(dbh.load_shape)(path) for path in shape_paths]
+    shapes = Parallel(n_jobs = 12)(delayed(dbh.load_shape)(path) for path in tqdm(shape_paths))
+
+    # Serial loading
+    #shapes = []
+    # for path in tqdm(shape_paths):
+    #     shapes.append(dbh.load_shape(path))
 
     (mean_f, mean_v, mean_f_c, mean_v_c, f_c, v_c) = stat.compute_stats(shapes)
+    print("Mean faces: %i" % mean_f)
+    print("Mean vertices: %i" % mean_v)
+    vis.plot_histogram(mean_f, mean_v, mean_f_c, mean_v_c, f_c, v_c)
     # TODO: Plot stuff
 
 

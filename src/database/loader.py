@@ -18,10 +18,10 @@ class Shape:
         return "None"
 
     def _count_faces(self, mesh):
-        return 0
+        return len(mesh.faces)
 
     def _count_vertices(self, mesh):
-        return 0
+        return len(mesh.vertices)
 
     @property
     def mesh(self):
