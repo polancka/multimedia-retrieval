@@ -37,11 +37,6 @@ def perform_stats(options):
     # TODO: Plot stuff
 
 
-def perform_refine(options):
-    print("Refine!")
-    # TODO: Add refinement
-
-
 def perform_normalize(options):
     print("Normalize!")
     # TODO: Add normalization
@@ -61,13 +56,8 @@ def main():
     show_parser = subparser.add_parser("stats", help="Create statistical information for a dataset")
     show_parser.add_argument("path", help="Path to the dataset")
 
-    # Prepare "refine" parser
-    refine_parser = subparser.add_parser("refine", help="Perform refinement on a dataset")
-    refine_parser.add_argument("input", help="Path to the unrefined dataset")
-    refine_parser.add_argument("output", help="Destination root folder for the resulting dataset")
-
     # Prepare "normalize" parser
-    norm_parser = subparser.add_parser("normalize", help="Perform normalization on a dataset")
+    norm_parser = subparser.add_parser("normalize", help="Perform normalization (and refinement) on a dataset")
     norm_parser.add_argument("input", help="Path to the non-normalized dataset")
     norm_parser.add_argument("output", help="Destination root folder for the resulting dataset")
 
@@ -79,8 +69,6 @@ def main():
         perform_show(options)
     elif options.command == "stats":
         perform_stats(options)
-    elif options.command == "refine":
-        perform_refine(options)
     elif options.command == "normalize":
         perform_normalize(options)
     else:
